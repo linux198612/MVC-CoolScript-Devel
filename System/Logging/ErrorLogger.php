@@ -39,8 +39,6 @@ class ErrorLogger
         file_put_contents(self::$logDir . self::$logFile, $msg, FILE_APPEND);
     }
 
-    protected $logFile;
-
     public function __construct($file = null)
     {
         $this->logFile = $file ?: __DIR__ . '/../../App/Logs/error.log';

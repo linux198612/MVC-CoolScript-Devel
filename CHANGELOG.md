@@ -14,6 +14,10 @@
 - XSS protection: Added `Xss` helper for safe HTML escaping.
 - Database connection pooling: `Database` now uses a singleton pattern to reuse connections for better performance.
 - View cache clearing: Added `Render::clearViewCache()` to remove all cached view files.
+- Request helper: Added `Request` class for centralized request data access.
+- Response helper: Added `Response` class for simplified JSON responses.
+- Validation rules extended: `Validator` now supports `numeric`, `alpha`, `url`, and `in:` rules.
+- Config helper: Added `Config` class for centralized configuration management.
 
 ### Changed
 - Database layer refactored for security and maintainability.
