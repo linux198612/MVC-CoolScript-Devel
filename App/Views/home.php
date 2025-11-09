@@ -92,6 +92,34 @@
         </div>
     </div>
 
+    <!-- What's New Section -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">What's New in 0.02</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">SQL injection protection: All queries use prepared statements.</li>
+                        <li class="list-group-item">Session fixation protection: Session ID regeneration.</li>
+                        <li class="list-group-item">Validation: <code>Validator</code> class with extended rules.</li>
+                        <li class="list-group-item">Flash messages: <code>Flash</code> helper for notifications.</li>
+                        <li class="list-group-item">View cache: Toggleable for faster rendering.</li>
+                        <li class="list-group-item">Route cache: Toggleable for faster route loading.</li>
+                        <li class="list-group-item">Logging: Log levels in <code>ErrorLogger</code>.</li>
+                        <li class="list-group-item">XSS protection: <code>Xss</code> helper for safe HTML escaping.</li>
+                        <li class="list-group-item">Database connection pooling: Singleton pattern for DB connections.</li>
+                        <li class="list-group-item">View cache clearing: <code>Render::clearViewCache()</code> method.</li>
+                        <li class="list-group-item">Request helper: <code>Request</code> class for request data.</li>
+                        <li class="list-group-item">Response helper: <code>Response</code> class for JSON responses.</li>
+                        <li class="list-group-item">Config helper: <code>Config</code> class for configuration management.</li>
+                        <li class="list-group-item">CSRF token automatic injection in forms.</li>
+                        <li class="list-group-item">Changelog tracking: See <a href="/CHANGELOG.md">CHANGELOG.md</a>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Call to Action -->
     <div class="row mt-5 mb-5">
         <div class="col-12 text-center">

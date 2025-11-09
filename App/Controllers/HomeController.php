@@ -9,7 +9,7 @@ class HomeController extends Render
     {
         $data = [
             'title' => 'Welcome to Coolscript MVC Framework',
-            'version' => '0.01',
+            'version' => '0.02',
             'features' => [
                 [
                     'icon' => '🚀',

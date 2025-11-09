@@ -30,6 +30,30 @@
         <li><strong>Configuration:</strong> Separate files for settings, routes, and database</li>
     </ul>
     <hr>
+    <h2>What's New in Coolscript MVC 0.02</h2>
+    <ul>
+        <li>SQL injection protection: All database queries use prepared statements via <code>Database::query($sql, $params)</code>.</li>
+        <li>Session fixation protection: Session ID regeneration in <code>Session.php</code>.</li>
+        <li>Validation: <code>Validator</code> class for basic and extended data validation rules.</li>
+        <li>Flash messages: <code>Flash</code> helper for session-based notifications.</li>
+        <li>View cache: Toggleable view caching for faster rendering.</li>
+        <li>Route cache: Toggleable route caching for faster route loading.</li>
+        <li>Logging: Log levels (<code>error</code>, <code>warning</code>, <code>info</code>, <code>debug</code>) in <code>ErrorLogger</code>.</li>
+        <li>XSS protection: <code>Xss</code> helper for safe HTML escaping.</li>
+        <li>Database connection pooling: Singleton pattern for DB connections.</li>
+        <li>View cache clearing: <code>Render::clearViewCache()</code> method.</li>
+        <li>Request helper: <code>Request</code> class for centralized request data access.</li>
+        <li>Response helper: <code>Response</code> class for simplified JSON responses.</li>
+        <li>Config helper: <code>Config</code> class for centralized configuration management.</li>
+        <li>CSRF token automatic injection: CSRF tokens injected into all <code>&lt;form&gt;</code> elements during view rendering.</li>
+        <li>Changelog tracking: See <a href="/CHANGELOG.md">CHANGELOG.md</a> for all notable changes.</li>
+    </ul>
+    <h3>Changed</h3>
+    <ul>
+        <li>Database layer refactored for security and maintainability.</li>
+        <li>CSRF token automatic injection in forms.</li>
+    </ul>
+    <hr>
     <p>See <a href="install.html">Installation Guide</a> and <a href="readme.html">Main Documentation</a> for details.</p>
 </div>
 </body>
