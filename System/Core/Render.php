@@ -1,6 +1,8 @@
 <?php
 namespace System\Core;
 
+use System\Security\Csrf;
+
 class Render
 {
     protected function render(string $view, array $data = [])
@@ -35,6 +37,17 @@ class Render
         ob_start();
         require $viewPath;
         $viewContent = ob_get_clean();
+
+        // CSRF token injection into forms if enabled
+        if (!empty($settings['csrf_enabled'])) {
+            $viewContent = preg_replace_callback(
+                '/<form\b[^>]*>/i',
+                function ($matches) {
+                    return $matches[0] . Csrf::injectToken();
+                },
+                $viewContent
+            );
+        }
 
         // --- Subdir meghatározása (pl. user/dashboard -> user) ---
         $parts = explode('/', $view);
@@ -77,5 +90,18 @@ class Render
         }
 
         return $finalContent;
+    }
+
+    /**
+     * Clear all cached view files.
+     */
+    public static function clearViewCache()
+    {
+        $cacheDir = __DIR__ . '/../../App/Cache/views/';
+        if (!is_dir($cacheDir)) return;
+        $files = glob($cacheDir . '*.php');
+        foreach ($files as $file) {
+            @unlink($file);
+        }
     }
 }

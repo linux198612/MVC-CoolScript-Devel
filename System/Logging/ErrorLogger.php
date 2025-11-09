@@ -38,4 +38,50 @@ class ErrorLogger
         if (!is_dir(self::$logDir)) mkdir(self::$logDir, 0777, true);
         file_put_contents(self::$logDir . self::$logFile, $msg, FILE_APPEND);
     }
+
+    protected $logFile;
+
+    public function __construct($file = null)
+    {
+        $this->logFile = $file ?: __DIR__ . '/../../App/Logs/error.log';
+    }
+
+    /**
+     * Log a message with a given level.
+     * Levels: error, warning, info, debug
+     */
+    public function log($level, $message, $context = [])
+    {
+        $levels = ['error', 'warning', 'info', 'debug'];
+        $level = strtolower($level);
+        if (!in_array($level, $levels)) {
+            $level = 'error';
+        }
+        $date = date('Y-m-d H:i:s');
+        $contextStr = !empty($context) ? json_encode($context, JSON_UNESCAPED_UNICODE) : '';
+        $line = "[$date] [$level] $message";
+        if ($contextStr) $line .= " | $contextStr";
+        $line .= PHP_EOL;
+        file_put_contents($this->logFile, $line, FILE_APPEND);
+    }
+
+    public function error($message, $context = [])
+    {
+        $this->log('error', $message, $context);
+    }
+
+    public function warning($message, $context = [])
+    {
+        $this->log('warning', $message, $context);
+    }
+
+    public function info($message, $context = [])
+    {
+        $this->log('info', $message, $context);
+    }
+
+    public function debug($message, $context = [])
+    {
+        $this->log('debug', $message, $context);
+    }
 }

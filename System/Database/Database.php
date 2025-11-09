@@ -3,26 +3,40 @@ namespace System\Database;
 
 class Database
 {
+    private static $instance = null;
     private $pdo;
 
-    public function __construct($config)
+    private function __construct()
     {
+        $config = require __DIR__ . '/../../App/Config/database.php';
         $dsn = "mysql:host={$config['host']};dbname={$config['db']};charset=utf8mb4";
-        $this->pdo = new \PDO($dsn, $config['user'], $config['pass'], [
+        $user = $config['user'];
+        $pass = $config['pass'];
+        $options = [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-        ]);
+            \PDO::ATTR_PERSISTENT => true,
+        ];
+        $this->pdo = new \PDO($dsn, $user, $pass, $options);
     }
 
-    /**
-     * Safe query with prepared statements
-     * @param string $sql
-     * @param array $params
-     * @return \PDOStatement
-     */
-    public function query($sql, $params = [])
+    public static function getInstance()
     {
-        $stmt = $this->pdo->prepare($sql);
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    public function getConnection()
+    {
+        return $this->pdo;
+    }
+
+    public static function query($sql, $params = [])
+    {
+        $db = self::getInstance()->getConnection();
+        $stmt = $db->prepare($sql);
         $stmt->execute($params);
         return $stmt;
     }

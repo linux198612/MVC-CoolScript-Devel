@@ -53,8 +53,8 @@ class Middleware
         self::register(function() {
             $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
             $file = sys_get_temp_dir() . '/mvc_rate_' . md5($ip);
-            $limit = 10000; // requests per hour
-            $window = 3600; // seconds
+            $limit = 100; // requests per hour
+            $window = 60; // seconds
             $data = @json_decode(@file_get_contents($file), true) ?: ['count' => 0, 'start' => time()];
             if (time() - $data['start'] > $window) {
                 $data = ['count' => 1, 'start' => time()];
