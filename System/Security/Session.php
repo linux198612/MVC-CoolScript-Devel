@@ -71,6 +71,16 @@ class Session
         // ...ha már fut a session, ne csinálj semmit...
     }
 
+    /**
+     * Regenerate session ID to prevent session fixation attacks.
+     * Call this after login or privilege change.
+     */
+    public function regenerate()
+    {
+        // Regenerate session ID and delete old session
+        session_regenerate_id(true);
+    }
+
     private static function showSessionError($message)
     {
         ?>

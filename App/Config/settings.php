@@ -1,7 +1,7 @@
 <?php
 return [
     // Framework version
-    'version' => '0.01',
+    'version' => '0.02',
 
     // The name of your application (shown in the navbar and title)
     'app_name' => 'Coolscript MVC Framework',
@@ -37,4 +37,10 @@ return [
 
     // Enable error logging (true/false)
     'error_logging_enabled' => false,
+
+    // Enable view cache (true/false)
+    'view_cache' => false,
+
+    // Enable route cache (true/false)
+    'route_cache' => false,
 ];

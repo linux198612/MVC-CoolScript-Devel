@@ -5,7 +5,19 @@ class Render
 {
     protected function render(string $view, array $data = [])
     {
-        extract($data);
+        $settings = require __DIR__ . '/../../App/Config/settings.php';
+        $cacheEnabled = $settings['view_cache'] ?? false;
+        $cacheDir = __DIR__ . '/../../App/Cache/Views/';
+        
+        if ($cacheEnabled) {
+            $cacheFile = $cacheDir . md5($view) . '.php';
+            if (file_exists($cacheFile) && !$settings['debug']) {
+                extract($data);
+                ob_start();
+                require $cacheFile;
+                return ob_get_clean();
+            }
+        }
 
         // --- View path ---
         $viewPath = __DIR__ . '/../../App/Views/' . $view . '.php';
@@ -50,10 +62,17 @@ class Render
             // $viewContent elérhető lesz a template-ben
             ob_start();
             include $templatePath;
-            return ob_get_clean();
+            $finalContent = ob_get_clean();
         }
 
         // --- Ha nincs template/layout, csak a view-t jelenítjük meg ---
-        return $viewContent;
+        $finalContent = $viewContent;
+
+        if ($cacheEnabled && isset($finalContent)) {
+            if (!is_dir($cacheDir)) mkdir($cacheDir, 0777, true);
+            file_put_contents($cacheFile, $finalContent);
+        }
+
+        return $finalContent;
     }
 }

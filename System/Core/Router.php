@@ -16,6 +16,15 @@ class Router
 
     public function loadRoutesFromConfig()
     {
+        $settings = require __DIR__ . '/../../App/Config/settings.php';
+        $cacheEnabled = $settings['route_cache'] ?? false;
+        $cacheFile = __DIR__ . '/../../App/Cache/routes.cache';
+
+        if ($cacheEnabled && file_exists($cacheFile) && !$settings['debug']) {
+            $this->routes = unserialize(file_get_contents($cacheFile));
+            return;
+        }
+
         $routesFile = __DIR__ . '/../../App/Config/routes.php';
         if (file_exists($routesFile)) {
             $routes = require $routesFile;
@@ -23,6 +32,10 @@ class Router
                 [$method, $pattern, $handler] = $route;
                 $this->add($method, $pattern, $handler);
             }
+        }
+
+        if ($cacheEnabled) {
+            file_put_contents($cacheFile, serialize($this->routes));
         }
     }
 
