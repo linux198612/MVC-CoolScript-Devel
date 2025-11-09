@@ -8,9 +8,9 @@ class Render
         $settings = require __DIR__ . '/../../App/Config/settings.php';
         $cacheEnabled = $settings['view_cache'] ?? false;
         $cacheDir = __DIR__ . '/../../App/Cache/Views/';
+        $cacheFile = $cacheDir . md5($view) . '.php';
         
         if ($cacheEnabled) {
-            $cacheFile = $cacheDir . md5($view) . '.php';
             if (file_exists($cacheFile) && !$settings['debug']) {
                 extract($data);
                 ob_start();
@@ -31,6 +31,7 @@ class Render
         }
 
         // --- View tartalom összegyűjtése ---
+        extract($data);
         ob_start();
         require $viewPath;
         $viewContent = ob_get_clean();
@@ -61,13 +62,15 @@ class Render
         if ($templatePath) {
             // $viewContent elérhető lesz a template-ben
             ob_start();
+            // A layout/template-ben elérhető: $viewContent és az összes $data változó
             include $templatePath;
             $finalContent = ob_get_clean();
+        } else {
+            // Ha nincs template/layout, csak a view-t jelenítjük meg
+            $finalContent = $viewContent;
         }
 
-        // --- Ha nincs template/layout, csak a view-t jelenítjük meg ---
-        $finalContent = $viewContent;
-
+        // --- Cache mentés ---
         if ($cacheEnabled && isset($finalContent)) {
             if (!is_dir($cacheDir)) mkdir($cacheDir, 0777, true);
             file_put_contents($cacheFile, $finalContent);
