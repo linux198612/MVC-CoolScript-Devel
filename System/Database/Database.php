@@ -18,6 +18,17 @@ class Database
             \PDO::ATTR_PERSISTENT => true,
         ];
         $this->pdo = new \PDO($dsn, $user, $pass, $options);
+        
+        // Set timezone if configured
+        // Note: Empty string check allows '0' as valid timezone offset
+        if (isset($config['timezone']) && $config['timezone'] !== '') {
+            try {
+                $stmt = $this->pdo->prepare("SET time_zone = ?");
+                $stmt->execute([$config['timezone']]);
+            } catch (\PDOException $e) {
+                throw new \InvalidArgumentException("Invalid timezone configuration '{$config['timezone']}': " . $e->getMessage());
+            }
+        }
     }
 
     public static function getInstance()

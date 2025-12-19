@@ -18,6 +18,7 @@
 - Response helper: Added `Response` class for simplified JSON responses.
 - Validation rules extended: `Validator` now supports `numeric`, `alpha`, `url`, and `in:` rules.
 - Config helper: Added `Config` class for centralized configuration management.
+- Timezone support: Added `timezone` configuration option in `database.php` to set MySQL timezone for database connections.
 
 ### Changed
 - Database layer refactored for security and maintainability.

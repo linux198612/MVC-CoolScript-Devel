@@ -4,4 +4,5 @@ return [
     'user' => '',
     'pass' => '',
     'db'   => '',
+    'timezone' => 'UTC',
 ];
