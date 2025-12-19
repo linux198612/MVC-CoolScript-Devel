@@ -18,6 +18,12 @@ class Database
             \PDO::ATTR_PERSISTENT => true,
         ];
         $this->pdo = new \PDO($dsn, $user, $pass, $options);
+        
+        // Set timezone if configured
+        if (isset($config['timezone']) && !empty($config['timezone'])) {
+            $stmt = $this->pdo->prepare("SET time_zone = ?");
+            $stmt->execute([$config['timezone']]);
+        }
     }
 
     public static function getInstance()
