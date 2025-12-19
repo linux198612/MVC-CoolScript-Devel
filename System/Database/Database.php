@@ -20,12 +20,12 @@ class Database
         $this->pdo = new \PDO($dsn, $user, $pass, $options);
         
         // Set timezone if configured
-        if (isset($config['timezone']) && !empty($config['timezone'])) {
+        if (isset($config['timezone']) && $config['timezone'] !== '') {
             try {
                 $stmt = $this->pdo->prepare("SET time_zone = ?");
                 $stmt->execute([$config['timezone']]);
             } catch (\PDOException $e) {
-                throw new \Exception("Invalid timezone configuration: " . $e->getMessage());
+                throw new \Exception("Invalid timezone configuration '{$config['timezone']}': " . $e->getMessage());
             }
         }
     }
